@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timestamp Button</title>
+</head>
+<body>
+    <button onclick="saveTimestamp()">Click Me</button>
+
+    <script>
+        function saveTimestamp() {
+            var timestamp = new Date().toISOString();
+            fetch('https://script.google.com/macros/s/AKfycbxmVzICB3VJ1CBAknVCTq7sbfHRFucbKwriEJhYFrb8O-jc-T2agGciCLAXjdtVpYwa/exec', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'timestamp=' + timestamp
+            })
+            .then(response => response.text())
+            .then(data => console.log(data))
+            .catch((error) => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
