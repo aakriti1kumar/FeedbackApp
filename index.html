@@ -21,17 +21,17 @@
         function sendData() {
             let timestamp = new Date().toISOString();
             let feedback = document.getElementById('feedback').value;
-
+        
             let data = {
                 timestamp: timestamp,
                 feedback: feedback
             };
-
+        
             fetch('https://script.google.com/macros/s/AKfycbxu-KSU_wjMxBMyu1_riusPsG_j8vlnLoRUttq4CjfsMm1LWKAWNk71cg6uIYaY_hs/exec', {
                 method: 'POST',
-                payload: JSON.stringify(data),
+                body: JSON.stringify(data), // Changed from payload to body
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    'Content-Type': 'application/json'  // Changed from application/x-www-form-urlencoded to application/json
                 }
             })
             .then(response => response.json())
