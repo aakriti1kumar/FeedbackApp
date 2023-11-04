@@ -4,29 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timestamp Button</title>
+    <style>
+        #feedbackSection {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <textarea id="feedback" placeholder="Enter your feedback here..."></textarea>
-    <button onclick="saveData()">Submit</button>
+    <button id="timestampButton" onclick="saveTimestamp()">Save Timestamp</button>
+
+    <div id="feedbackSection">
+        <textarea id="feedback" placeholder="Enter your feedback here..."></textarea>
+        <button onclick="submitFeedback()">Submit Feedback</button>
+    </div>
 
     <script>
-        function saveData() {
+function saveTimestamp() {
             var timestamp = new Date().toISOString();
-            var feedback = document.getElementById('feedback').value;
 
             var formData = new URLSearchParams();
             formData.append('timestamp', timestamp);
-            formData.append('feedback', feedback);
-
-            fetch('https://script.google.com/macros/s/AKfycbx0bKZTUUTFQ_5kl5dD_Hph558cnQ0sNwM0EKeCbu2P46tgdJB1Ms4hRaWQPV74vDMl/exec', {
+    
+            fetch('https://script.google.com/macros/s/AKfycbwI10DR9FyQSfHmv-D1VCrgcl477H8klOTj6FbNvhA8MKL4cuTBMLuU4GyN-lCXLC_U/exec', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: formData
             })
-            .then(response => response.text())
-            .then(data => console.log(data))
+            .then(response => {
+                console.log(response.text());
+                // Hide timestamp button and show feedback section
+                document.getElementById('timestampButton').style.display = 'none';
+                document.getElementById('feedbackSection').style.display = 'block';
+            })
+            .catch((error) => console.error('Error:', error));
+        }
+
+        function submitFeedback() {
+            var feedback = document.getElementById('feedback').value;
+
+            var formData = new URLSearchParams();
+            formData.append('feedback', feedback);
+
+            fetch('https://script.google.com/macros/s/AKfycbwI10DR9FyQSfHmv-D1VCrgcl477H8klOTj6FbNvhA8MKL4cuTBMLuU4GyN-lCXLC_U/exec', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData
+            })
+            .then(response => {
+                console.log(response.text());
+                // Reset feedback textarea, hide feedback section and show timestamp button
+                document.getElementById('feedback').value = '';
+                document.getElementById('feedbackSection').style.display = 'none';
+                document.getElementById('timestampButton').style.display = 'block';
+            })
             .catch((error) => console.error('Error:', error));
         }
     </script>
