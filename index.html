@@ -6,17 +6,24 @@
     <title>Timestamp Button</title>
 </head>
 <body>
-    <button onclick="saveTimestamp()">Click Me</button>
+    <textarea id="feedback" placeholder="Enter your feedback here..."></textarea>
+    <button onclick="saveData()">Submit</button>
 
     <script>
-        function saveTimestamp() {
+        function saveData() {
             var timestamp = new Date().toISOString();
-            fetch('https://script.google.com/macros/s/AKfycbyMxja2cGI2ktl1NktsRDpfaf7uOO3JxoYcCtyB981RVGWk74X_8ofqAntGyzA-QrQX/exec', {
+            var feedback = document.getElementById('feedback').value;
+
+            var formData = new URLSearchParams();
+            formData.append('timestamp', timestamp);
+            formData.append('feedback', feedback);
+
+            fetch('https://script.google.com/macros/s/AKfycbx0bKZTUUTFQ_5kl5dD_Hph558cnQ0sNwM0EKeCbu2P46tgdJB1Ms4hRaWQPV74vDMl/exec', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: 'timestamp=' + timestamp
+                body: formData
             })
             .then(response => response.text())
             .then(data => console.log(data))
