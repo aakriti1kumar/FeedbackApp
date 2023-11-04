@@ -20,7 +20,7 @@
 
     <script>
 function saveTimestamp() {
-            var timestamp = new Date().toISOString();
+            var timestamp = new Date().toUTCString();
 
             var formData = new URLSearchParams();
             formData.append('timestamp', timestamp);
