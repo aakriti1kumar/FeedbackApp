@@ -1,3 +1,4 @@
+index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,7 +71,7 @@ function saveTimestamp() {
             var formData = new URLSearchParams();
             formData.append('timestamp', timestamp);
     
-            fetch('https://script.google.com/macros/s/AKfycbwI10DR9FyQSfHmv-D1VCrgcl477H8klOTj6FbNvhA8MKL4cuTBMLuU4GyN-lCXLC_U/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbwDqT3RLK8xzqXLF7VfF4c7QisGI7kFYZFZAebHpzwaQwMeu3VF0xH9_oKW2hL5qJCl/exec', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -86,29 +87,55 @@ function saveTimestamp() {
             .catch((error) => console.error('Error:', error));
         }
 
-        function submitFeedback() {
-            var feedback = document.getElementById('feedback').value;
+        function submitInfo() {
+        var formData = new URLSearchParams();
+        formData.append('carNumber', document.getElementById('carNumber').value);
+        formData.append('dt', document.getElementById('dt').value);
+        formData.append('rideType', document.getElementById('rideType').value);
+        formData.append('route', document.getElementById('route').value);
+        formData.append('agent', document.getElementById('agent').value);
 
-            var formData = new URLSearchParams();
-            formData.append('feedback', feedback);
+        fetch('https://script.google.com/macros/s/AKfycbwDqT3RLK8xzqXLF7VfF4c7QisGI7kFYZFZAebHpzwaQwMeu3VF0xH9_oKW2hL5qJCl/exec', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData
+        })
+        .then(response => response.text())
+        .then(uniqueId => {
+            sessionStorage.setItem('uniqueId', uniqueId);
+            document.getElementById('infoForm').style.display = 'none';
+            document.getElementById('timestampButton').style.display = 'block';
+        })
+        .catch((error) => console.error('Error:', error));
+    }
 
-            fetch('https://script.google.com/macros/s/AKfycbwI10DR9FyQSfHmv-D1VCrgcl477H8klOTj6FbNvhA8MKL4cuTBMLuU4GyN-lCXLC_U/exec', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: formData
-            })
-            .then(response => {
-                console.log(response.text());
-                // Reset feedback textarea, hide feedback section and show timestamp button
-                document.getElementById('feedback').value = '';
-                document.getElementById('feedbackSection').style.display = 'none';
-                document.getElementById('timestampButton').style.display = 'block';
-            })
-            .catch((error) => console.error('Error:', error));
-        }
+    function submitFeedback() {
+        var feedback = document.getElementById('feedback').value;
+        var timestamp = new Date().toUTCString();
+        var uniqueId = sessionStorage.getItem('uniqueId');
+
+        var formData = new URLSearchParams();
+        formData.append('uniqueId', uniqueId);
+        formData.append('timestamp', timestamp);
+        formData.append('feedback', feedback);
+
+        fetch('https://script.google.com/macros/s/AKfycbwDqT3RLK8xzqXLF7VfF4c7QisGI7kFYZFZAebHpzwaQwMeu3VF0xH9_oKW2hL5qJCl/exec', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData
+        })
+        .then(response => {
+            console.log(response.text());
+            document.getElementById('feedback').value = '';
+            document.getElementById('feedbackSection').style.display = 'none';
+            document.getElementById('timestampButton').style.display = 'block';
+        })
+        .catch((error) => console.error('Error:', error));
+    }
     </script>
 </body>
 </html>
-
