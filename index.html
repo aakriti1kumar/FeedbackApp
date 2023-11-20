@@ -57,6 +57,7 @@
 </head>
 <body>
     <div id="infoForm">
+        
         <input type="text" id="carNumber" placeholder="What is your car #?" /><br/>
         <input type="text" id="dt" placeholder="Do you know the DT (Ask your VO/TS)?" /><br/>
         <input type="text" id="rideType" placeholder="What kind of ride is it?" /><br/>
@@ -65,9 +66,9 @@
         <button onclick="submitInfo()">Submit Information</button>
     </div>
     
-    <button id="timestampButton" onclick="saveTimestamp()">Save Timestamp</button>
+    <button id="timestampButton" onclick="saveTimestamp()" style="display:none;">Save Timestamp</button>
 
-    <div id="feedbackSection">
+    <div id="feedbackSection" style="display:none;">
         <textarea id="feedback" placeholder="Enter your feedback here..."></textarea>
         <button onclick="submitFeedback()">Submit Feedback</button>
     </div>
@@ -96,7 +97,8 @@ function saveTimestamp() {
         }
 
         function submitInfo() {
-        var formData = new URLSearchParams();
+    var formData = new URLSearchParams();
+    // Collect the form data as before
         formData.append('carNumber', document.getElementById('carNumber').value);
         formData.append('dt', document.getElementById('dt').value);
         formData.append('rideType', document.getElementById('rideType').value);
@@ -104,19 +106,22 @@ function saveTimestamp() {
         formData.append('agent', document.getElementById('agent').value);
 
         fetch('https://script.google.com/macros/s/AKfycbwDqT3RLK8xzqXLF7VfF4c7QisGI7kFYZFZAebHpzwaQwMeu3VF0xH9_oKW2hL5qJCl/exec', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: formData
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: formData
         })
         .then(response => response.text())
         .then(uniqueId => {
             sessionStorage.setItem('uniqueId', uniqueId);
             document.getElementById('infoForm').style.display = 'none';
-            document.getElementById('timestampButton').style.display = 'block';
+            document.getElementById('timestampButton').style.display = 'block'; // Show the 'Save Timestamp' button
         })
-        .catch((error) => console.error('Error:', error));
+        .catch((error) => {
+            console.error('Error:', error);
+            alert("Failed to submit information. Please try again.");
+        });
     }
 
     function submitFeedback() {
