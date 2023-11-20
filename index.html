@@ -57,6 +57,15 @@ index.html
     </style>
 </head>
 <body>
+    <div id="infoForm">
+        <input type="text" id="carNumber" placeholder="What is your car #?" /><br/>
+        <input type="text" id="dt" placeholder="Do you know the DT (Ask your VO/TS)?" /><br/>
+        <input type="text" id="rideType" placeholder="What kind of ride is it?" /><br/>
+        <input type="text" id="route" placeholder="What route?" /><br/>
+        <input type="text" id="agent" placeholder="Who is the agent?" /><br/>
+        <button onclick="submitInfo()">Submit Information</button>
+    </div>
+    
     <button id="timestampButton" onclick="saveTimestamp()">Save Timestamp</button>
 
     <div id="feedbackSection">
