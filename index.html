@@ -193,6 +193,7 @@
         var formData = new URLSearchParams();
         formData.append('uniqueId', uniqueId);
         formData.append('timestamp', timestamp);
+        formData.append('imageName', imageName);
         formData.append('feedback', feedback);
 
         fetch('https://script.google.com/macros/s/AKfycbx_iCZRVAh8GfzwF3Bq5aj_MnMIg9Kt1R_2lshN7jh-P_CUVAJGMTZ9vXb10Fx0dJ_GaA/exec', {
