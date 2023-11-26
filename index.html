@@ -19,7 +19,7 @@
 
         /* Button styling */
         button {
-            background-color: #3498db;
+            background-color: #7059f9;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -30,13 +30,13 @@
         }
 
         button:hover {
-            background-color: #2980b9;
+            background-color: #7059f9;
         }
 
         /* Textarea styling */
         textarea {
             width: 100%;
-            max-width: 300px;
+            max-width: 620px;
             padding: 10px;
             margin-top: 10px;
             border-radius: 4px;
@@ -46,28 +46,54 @@
         #feedbackSection{
             display: none;
         }
-
-
-        #infoForm {
-            max-width: 550px; /* Adjust this value as needed */
-            margin: 0 auto;
-            padding: 3px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds a shadow for better visibility */
-            background-color: white; /* Optional: change the background color */
-            border-radius: 8px; /* Optional: rounds the corners */
+        #imageButtons {
+            display: flex;        /* Aligns images side by side */
+            justify-content: center; /* Centers the images horizontally */
+            align-items: center;    /* Centers the images vertically */
+            margin-top: 20px;       /* Adds some space above the image buttons */
         }
 
-    #infoForm input[type="text"] {
-            width: 100%; /* Full width of the form */
-            max-width: 480px; /* Adjust this value as needed */
-            padding: 12px; /* Increased padding for larger input fields */
+        #imageButtons img {
+            width: 3cm;             /* Sets the width to 2 cm */
+            height: 3cm;            /* Sets the height to 2 cm */
+            margin: 0 10px;         /* Adds space between the images */
+            cursor: pointer;        /* Changes cursor to pointer when hovering over the image */
+        }
+
+        #infoForm {
+            width: 100%;
+            max-width: 580px; /* Adjust this value as needed */
+            margin: 15px;
+            padding: 10px;
+            box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1); /* Optional: adds a shadow for better visibility */
+            background-color: white; /* Optional: change the background color */
+            border-radius: 11px; /* Optional: rounds the corners */
+        }
+
+        #infoForm input[type="text"] {
+            width: 95%; /* Full width of the form */
+            max-width: 580px; /* Adjust this value as needed */
+            padding: 15px; /* Increased padding for larger input fields */
             margin-top: 10px;
             border-radius: 4px;
             border: 1px solid #ccc;
         }
 
-    #infoForm button {
-            padding: 12px 20px; /* Larger button */
+        #infoForm label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        #infoForm button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 20px;
+            background-color: #7059f9;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
             /* ... other button styles ... */
         }
         /* Centering content for mobile devices and making it responsive */
@@ -80,16 +106,28 @@
 </head>
 <body>
     <div id="infoForm">
-        
-        <input type="text" id="carNumber" placeholder="What is your car #?" /><br/>
-        <input type="text" id="dt" placeholder="Do you know the DT (Ask your VO/TS)?" /><br/>
-        <input type="text" id="rideType" placeholder="What kind of ride is it?" /><br/>
-        <input type="text" id="route" placeholder="What route?" /><br/>
-        <input type="text" id="agent" placeholder="Who is the agent?" /><br/>
+        <label for="carNumber">What is your car #?</label>
+        <input type="text" id="carNumber" /><br/>
+    
+        <label for="dt">Do you know the DT (Ask your VO/TS)?</label>
+        <input type="text" id="dt" /><br/>
+    
+        <label for="rideType">What kind of ride is it?</label>
+        <input type="text" id="rideType" /><br/>
+    
+        <label for="route">What route?</label>
+        <input type="text" id="route" /><br/>
+    
+        <label for="agent">Who is the agent?</label>
+        <input type="text" id="agent" /><br/>
+    
         <button onclick="submitInfo()">Submit Information</button>
     </div>
     
-    <button id="timestampButton" onclick="saveTimestamp()" style="display:none;">Save Timestamp</button>
+    <div id="imageButtons" style="display:none;">
+        <img src="up.png" alt="Image1" onclick="saveTimestamp('Image1')" />
+        <img src="down.png" alt="Image2" onclick="saveTimestamp('Image2')" />
+    </div>
 
     <div id="feedbackSection" style="display:none;">
         <textarea id="feedback" placeholder="Enter your feedback here..."></textarea>
@@ -97,49 +135,49 @@
     </div>
 
     <script>
-function saveTimestamp() {
-            var timestamp = new Date().toUTCString();
+    function saveTimestamp(imageName) {
+        var timestamp = new Date().toUTCString();
 
-            var formData = new URLSearchParams();
-            formData.append('timestamp', timestamp);
-    
-            fetch('https://script.google.com/macros/s/AKfycbwDqT3RLK8xzqXLF7VfF4c7QisGI7kFYZFZAebHpzwaQwMeu3VF0xH9_oKW2hL5qJCl/exec', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: formData
-            })
-            .then(response => {
-                console.log(response.text());
-                // Hide timestamp button and show feedback section
-                document.getElementById('timestampButton').style.display = 'none';
-                document.getElementById('feedbackSection').style.display = 'block';
-            })
-            .catch((error) => console.error('Error:', error));
-        }
+        var formData = new URLSearchParams();
+        formData.append('timestamp', timestamp);
+        formData.append('imageName', imageName);
 
-        function submitInfo() {
-    var formData = new URLSearchParams();
-    // Collect the form data as before
+        fetch('https://script.google.com/macros/s/AKfycbx_iCZRVAh8GfzwF3Bq5aj_MnMIg9Kt1R_2lshN7jh', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData
+        })
+        .then(response => {
+            console.log(response.text());
+            // Hide image buttons and show feedback section
+            document.getElementById('imageButtons').style.display = 'none';
+            document.getElementById('feedbackSection').style.display = 'block';
+        })
+        .catch((error) => console.error('Error:', error));
+    }
+
+    function submitInfo() {
+        var formData = new URLSearchParams();
         formData.append('carNumber', document.getElementById('carNumber').value);
         formData.append('dt', document.getElementById('dt').value);
         formData.append('rideType', document.getElementById('rideType').value);
         formData.append('route', document.getElementById('route').value);
         formData.append('agent', document.getElementById('agent').value);
 
-        fetch('https://script.google.com/macros/s/AKfycbwDqT3RLK8xzqXLF7VfF4c7QisGI7kFYZFZAebHpzwaQwMeu3VF0xH9_oKW2hL5qJCl/exec', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: formData
+        fetch('https://script.google.com/macros/s/AKfycbx_iCZRVAh8GfzwF3Bq5aj_MnMIg9Kt1R_2lshN7jh-P_CUVAJGMTZ9vXb10Fx0dJ_GaA/exec', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData
         })
         .then(response => response.text())
         .then(uniqueId => {
             sessionStorage.setItem('uniqueId', uniqueId);
             document.getElementById('infoForm').style.display = 'none';
-            document.getElementById('timestampButton').style.display = 'block'; // Show the 'Save Timestamp' button
+            document.getElementById('imageButtons').style.display = 'flex'; // Show image buttons after successful submission
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -157,7 +195,7 @@ function saveTimestamp() {
         formData.append('timestamp', timestamp);
         formData.append('feedback', feedback);
 
-        fetch('https://script.google.com/macros/s/AKfycbwDqT3RLK8xzqXLF7VfF4c7QisGI7kFYZFZAebHpzwaQwMeu3VF0xH9_oKW2hL5qJCl/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbx_iCZRVAh8GfzwF3Bq5aj_MnMIg9Kt1R_2lshN7jh-P_CUVAJGMTZ9vXb10Fx0dJ_GaA/exec', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
