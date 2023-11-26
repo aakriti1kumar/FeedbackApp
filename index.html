@@ -189,6 +189,7 @@
         var feedback = document.getElementById('feedback').value;
         var timestamp = new Date().toUTCString();
         var uniqueId = sessionStorage.getItem('uniqueId');
+        var imageName = document.getElementById('imageButtons');
 
         var formData = new URLSearchParams();
         formData.append('uniqueId', uniqueId);
