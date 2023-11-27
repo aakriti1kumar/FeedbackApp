@@ -137,27 +137,13 @@
     <script>
     function saveTimestamp(imageName) {
         var timestamp = new Date().toUTCString();
-
-        var formData = new URLSearchParams();
-        formData.append('timestamp', timestamp);
-        formData.append('imageName', imageName);
-
+    
+        sessionStorage.setItem('timestamp', timestamp);
         sessionStorage.setItem('imageName', imageName);
-
-        fetch('https://script.google.com/macros/s/AKfycbx_iCZRVAh8GfzwF3Bq5aj_MnMIg9Kt1R_2lshN7jh-P_CUVAJGMTZ9vXb10Fx0dJ_GaA/exec', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: formData
-        })
-        .then(response => {
-            console.log(response.text());
-            // Hide image buttons and show feedback section
-            document.getElementById('imageButtons').style.display = 'none';
-            document.getElementById('feedbackSection').style.display = 'block';
-        })
-        .catch((error) => console.error('Error:', error));
+    
+        // Show feedback section immediately
+        document.getElementById('imageButtons').style.display = 'none';
+        document.getElementById('feedbackSection').style.display = 'block';
     }
 
     function submitInfo() {
@@ -189,16 +175,16 @@
 
     function submitFeedback() {
         var feedback = document.getElementById('feedback').value;
-        var timestamp = new Date().toUTCString();
+        var timestamp = sessionStorage.getItem('timestamp');
         var uniqueId = sessionStorage.getItem('uniqueId');
-        var imageName = sessionStorage.getItem('imageName'); 
-
+        var imageName = sessionStorage.getItem('imageName');
+    
         var formData = new URLSearchParams();
         formData.append('uniqueId', uniqueId);
         formData.append('timestamp', timestamp);
         formData.append('imageName', imageName);
         formData.append('feedback', feedback);
-
+    
         fetch('https://script.google.com/macros/s/AKfycbx_iCZRVAh8GfzwF3Bq5aj_MnMIg9Kt1R_2lshN7jh-P_CUVAJGMTZ9vXb10Fx0dJ_GaA/exec', {
             method: 'POST',
             headers: {
