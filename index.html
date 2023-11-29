@@ -97,7 +97,7 @@
             /* ... other button styles ... */
         }
 
-        #endRide button {
+        #endRideButton {
             position: absolute; /* Absolute positioning */
             bottom: 50px;       /* 20px from the bottom */
             right: 50px;        /* 20px from the right */
@@ -112,6 +112,13 @@
             transition: background-color 0.2s;
             /* ... other button styles ... */
         }
+
+        #ratingSection button {
+            background-color: #ffd700; /* Gold color for stars */
+            color: black;
+            /* other styles for star buttons */
+        }
+
         /* Centering content for mobile devices and making it responsive */
         @media (max-width: 600px) {
             body {
@@ -143,7 +150,7 @@
         <button onclick="submitInfo()">Submit Information</button>
     </div>
 
-    <div id="endRide" style="display:none;">
+    <div id="endRide">
         <button id="endRideButton" onclick="endRide()">End Ride</button>
     </div>
 
@@ -168,11 +175,9 @@
     
     <script>
 
-    function endRide() {
-        document.getElementById('infoForm').style.display = 'none';
-        document.getElementById('imageButtons').style.display = 'none';
-        document.getElementById('feedbackSection').style.display = 'none';
-        document.getElementById('ratingSection').style.display = 'block';
+    function endRide() {  
+        // Refresh the page
+        location.reload();
     }
 
     function saveTimestamp(imageName) {
