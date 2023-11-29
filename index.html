@@ -96,6 +96,19 @@
             transition: background-color 0.2s;
             /* ... other button styles ... */
         }
+
+        #endRide button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 20px;
+            background-color: #eb1c1c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            /* ... other button styles ... */
+        }
         /* Centering content for mobile devices and making it responsive */
         @media (max-width: 600px) {
             body {
@@ -105,6 +118,9 @@
     </style>
 </head>
 <body>
+
+   
+
     <div id="infoForm">
         <label for="carNumber">What is your car #?</label>
         <input type="text" id="carNumber" /><br/>
@@ -123,7 +139,11 @@
     
         <button onclick="submitInfo()">Submit Information</button>
     </div>
-    
+
+    <div id="endRide" style="display:none;">
+        <button id="endRideButton" onclick="endRide()">End Ride</button>
+    </div>
+
     <div id="imageButtons" style="display:none;">
         <img src="up.png" alt="Image1" onclick="saveTimestamp('positive')" />
         <img src="down.png" alt="Image2" onclick="saveTimestamp('negative')" />
@@ -134,7 +154,24 @@
         <button onclick="submitFeedback()">Submit Feedback</button>
     </div>
 
+    <div id="ratingSection" style="display:none;">
+        <button onclick="submitRating(1)">1</button>
+        <button onclick="submitRating(2)">2</button>
+        <button onclick="submitRating(3)">3</button>
+        <button onclick="submitRating(4)">4</button>
+        <button onclick="submitRating(5)">5</button>
+    </div>
+
+    
     <script>
+
+    function endRide() {
+        document.getElementById('infoForm').style.display = 'none';
+        document.getElementById('imageButtons').style.display = 'none';
+        document.getElementById('feedbackSection').style.display = 'none';
+        document.getElementById('ratingSection').style.display = 'block';
+    }
+
     function saveTimestamp(imageName) {
         var timestamp = new Date().toUTCString();
     
@@ -144,6 +181,8 @@
         // Show feedback section immediately
         document.getElementById('imageButtons').style.display = 'none';
         document.getElementById('feedbackSection').style.display = 'block';
+        document.getElementById('endRide').style.display = 'block';
+
     }
 
     function submitInfo() {
@@ -166,6 +205,7 @@
             sessionStorage.setItem('uniqueId', uniqueId);
             document.getElementById('infoForm').style.display = 'none';
             document.getElementById('imageButtons').style.display = 'flex'; // Show image buttons after successful submission
+            document.getElementById('endRide').style.display = 'flex';
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -197,9 +237,35 @@
             document.getElementById('feedback').value = '';
             document.getElementById('feedbackSection').style.display = 'none';
             document.getElementById('imageButtons').style.display = 'block';
+            document.getElementById('endRide').style.display = 'block';
+
         })
         .catch((error) => console.error('Error:', error));
     }
+
+    function submitRating(starCount) {
+        var formData = new URLSearchParams();
+        formData.append('action', 'submitRating');
+        formData.append('starRating', starCount);
+
+        fetch('https://script.google.com/macros/s/AKfycbx_iCZRVAh8GfzwF3Bq5aj_MnMIg9Kt1R_2lshN7jh-P_CUVAJGMTZ9vXb10Fx0dJ_GaA/exec', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData
+        })
+        .then(response => response.text())
+        .then(result => {
+            console.log(result);
+            // Reset the session
+            document.getElementById('ratingSection').style.display = 'none';
+            document.getElementById('infoForm').style.display = 'block';
+        })
+        .catch((error) => console.error('Error:', error));
+    }
+
+
     </script>
 </body>
 </html>
