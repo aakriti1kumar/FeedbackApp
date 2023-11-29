@@ -119,6 +119,14 @@
             /* other styles for star buttons */
         }
 
+        #ratingSection p {
+            text-align: center;
+            font-size: 20px; /* Example size, adjust as needed */
+            margin-bottom: 15px;
+            color: #333; /* Example color, adjust as needed */
+        }
+
+
         /* Centering content for mobile devices and making it responsive */
         @media (max-width: 600px) {
             body {
@@ -165,6 +173,7 @@
     </div>
 
     <div id="ratingSection" style="display:none;">
+        <p>Rate your ride out of 5</p> <!-- Added text -->
         <button onclick="submitRating(1)">1</button>
         <button onclick="submitRating(2)">2</button>
         <button onclick="submitRating(3)">3</button>
