@@ -271,6 +271,8 @@
         var formData = new URLSearchParams();
         formData.append('action', 'submitRating');
         formData.append('starRating', starCount);
+        formData.append('uniqueId', uniqueId); // Include the unique ID in the form data
+
     
         fetch('https://script.google.com/macros/s/AKfycbyI1_iFEF9LZC5h9cxW_7CSDQxG1tj71FsoaIlM7lScL-4UyExs7JvCPsfnYTyKK2r4Lw/exec', {
             method: 'POST',
